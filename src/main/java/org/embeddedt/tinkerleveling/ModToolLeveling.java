@@ -43,7 +43,7 @@ import java.util.UUID;
 import java.util.WeakHashMap;
 import java.util.function.BiConsumer;
 
-public class ModToolLeveling extends Modifier implements HarvestEnchantmentsModifierHook, ShearsModifierHook, ProjectileHitModifierHook, ProjectileLaunchModifierHook {
+public class ModToolLeveling extends Modifier implements HarvestEnchantmentsModifierHook, ShearsModifierHook, ProjectileHitModifierHook, ProjectileLaunchModifierHook , IShearModifier {
 
     public static final ResourceLocation XP_KEY = new ResourceLocation(TinkerLeveling.MODID, "xp");
     public static final ResourceLocation BONUS_MODIFIERS_KEY = new ResourceLocation(TinkerLeveling.MODID, "bonus_modifiers");
@@ -198,6 +198,15 @@ public class ModToolLeveling extends Modifier implements HarvestEnchantmentsModi
 
     @Override
     public void afterShearEntity(IToolStackView tool, ModifierEntry level, Player player, Entity entity, boolean isTarget) {
+        addXp(tool, 1, player);
+    }
+
+    /*
+    Reimplemented IShearModifier because Tinkers' still uses it;
+    it can be removed once Tinkers starts using ShearModifierHook instead.
+     */
+    @Override
+    public void afterShearEntity(IToolStackView tool, int level, Player player, Entity entity, boolean isTarget) {
         addXp(tool, 1, player);
     }
 
